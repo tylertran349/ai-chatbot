@@ -5,12 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { GeminiService } from './services/gemini';
 import { Conversation, ChatMessage } from './models/conversation.model';
-import { marked } from 'marked';
+import { LatexDirective } from './latex';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, LatexDirective],
   providers: [GeminiService],
   templateUrl: './app.html',
   styleUrl: './app.css'
@@ -126,14 +126,6 @@ export class AppComponent implements OnInit {
       convo.title = title.trim().replace(/["']/g, "");
       this.saveConversations();
     });
-  }
-
-  // --- UI & State Management ---
-  formatMessageContent(content: string): string {
-    if (!content) {
-      return '';
-    }
-    return marked.parse(content) as string;
   }
 
   selectConversation(id: string): void {

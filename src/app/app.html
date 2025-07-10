@@ -41,13 +41,17 @@
         <div *ngFor="let message of activeConvo.messages" [ngClass]="message.role">
           <div class="message-content">
             <strong>{{ message.role === 'user' ? 'You' : 'AI' }}:</strong>
-            <div [innerHTML]="formatMessageContent(message.content)"></div>
+            
+            <!-- **** THIS IS THE UPDATED LINE **** -->
+            <!-- It now uses the directive to render Markdown AND LaTeX -->
+            <div class="render-content" [appLatex]="message.content"></div>
+
           </div>
         </div>
         <div *ngIf="isLoading" class="ai loading">
           <div class="message-content">
             <strong>AI:</strong>
-            <p>Thinking...</p>
+            <div class="render-content"><p>Thinking...</p></div>
           </div>
         </div>
       </div>
@@ -55,7 +59,6 @@
 
     <ng-template #noChatSelected>
       <div class="welcome-screen">
-        <!-- **** THIS IS THE UPDATED LINE **** -->
         <h2>AI Chat Assistant</h2>
         <p>Start a new conversation or select one from the list.</p>
         <p *ngIf="!apiKey" class="warning">Your API Key is not set. Please add it via the "API Key" button.</p>
@@ -72,7 +75,7 @@
           [disabled]="isLoading"
         ></textarea>
         <button (click)="askAI()" [disabled]="isLoading || !prompt.trim()">
-          {{ isLoading ? '...' : '➤' }}
+          {{ isLoading ? '...' : 'Ask AI' }}
         </button>
       </div>
     </div>
