@@ -1,45 +1,107 @@
-<main class="container">
-  <h1>AI Chatbot</h1>
-
-  <!-- Add the Clear button -->
-  <button (click)="clearHistory()" [hidden]="conversationHistory.length === 0">
-    Clear History
-  </button>
-
-  <!-- Chat History Section -->
-  <section class="history-section">
-    <!-- Loop over the conversation history -->
-    <div *ngFor="let turn of conversationHistory" class="turn">
-      <div class="prompt-message">
-        <strong>You:</strong>
-        <p>{{ turn.prompt }}</p>
+<!-- src/app/app.html -->
+<div class="app-layout">
+  <!-- Sidebar for Conversation History -->
+  <aside class="sidebar">
+    <header>
+      <h1>AI Chat</h1>
+      <button class="new-chat-btn" (click)="startNewConversation()">+ New Chat</button>
+    </header>
+    <ul class="conversation-list">
+      <li 
+        *ngFor="let convo of conversations" 
+        (click)="selectConversation(convo.id)"
+        [class.active]="convo.id === activeConversationId"
+      >
+        <span class="convo-title">{{ convo.title }}</span>
+        <button class="delete-btn" title="Delete conversation" (click)="requestDeleteConversation(convo.id, $event)">×</button>
+      </li>
+    </ul>
+    <footer class="sidebar-footer">
+      <div class="settings-group">
+        <label for="model-select">Model:</label>
+        <select id="model-select" [(ngModel)]="selectedModel" (change)="onModelChange()">
+          <option *ngFor="let model of availableModels" [value]="model">{{ model }}</option>
+        </select>
       </div>
-      <div class="response-message">
-        <strong>AI:</strong>
-        <pre>{{ turn.response }}</pre>
+      <button class="settings-btn" (click)="showApiKeyModal()">API Key</button>
+      <button 
+        class="clear-all-btn" 
+        *ngIf="conversations.length > 0"
+        (click)="requestClearAll()"
+      >
+        Clear All History
+      </button>
+    </footer>
+  </aside>
+
+  <!-- Main Chat Area -->
+  <main class="chat-area">
+    <ng-container *ngIf="getActiveConversation() as activeConvo; else noChatSelected">
+      <div class="message-container">
+        <div *ngFor="let message of activeConvo.messages" [ngClass]="message.role">
+          <div class="message-content">
+            <strong>{{ message.role === 'user' ? 'You' : 'AI' }}:</strong>
+            <div [innerHTML]="formatMessageContent(message.content)"></div>
+          </div>
+        </div>
+        <div *ngIf="isLoading" class="ai loading">
+          <div class="message-content">
+            <strong>AI:</strong>
+            <p>Thinking...</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noChatSelected>
+      <div class="welcome-screen">
+        <!-- **** THIS IS THE UPDATED LINE **** -->
+        <h2>AI Chat Assistant</h2>
+        <p>Start a new conversation or select one from the list.</p>
+        <p *ngIf="!apiKey" class="warning">Your API Key is not set. Please add it via the "API Key" button.</p>
+      </div>
+    </ng-template>
+
+    <div class="prompt-form">
+      <div *ngIf="error" class="error-message">{{ error }}</div>
+      <div class="input-group">
+        <textarea 
+          [(ngModel)]="prompt"
+          (keydown.enter)="handleEnterKey($event)"
+          placeholder="Ask me anything..."
+          [disabled]="isLoading"
+        ></textarea>
+        <button (click)="askAI()" [disabled]="isLoading || !prompt.trim()">
+          {{ isLoading ? '...' : '➤' }}
+        </button>
       </div>
     </div>
-  </section>
+  </main>
+</div>
 
-  <!-- Show loading indicator at the bottom -->
-  <div *ngIf="isLoading" class="loading-indicator">
-    <p>Generating response...</p>
+
+<!-- MODALS -->
+<!-- API Key Modal -->
+<div class="modal-backdrop" *ngIf="isApiKeyModalVisible">
+  <div class="modal-content">
+    <h3>API Key Settings</h3>
+    <p>Enter your Google Gemini API key. Your key is stored locally in your browser and never sent anywhere else.</p>
+    <input type="password" [(ngModel)]="tempApiKey" placeholder="Enter your API key here">
+    <div class="modal-actions">
+      <button class="secondary-btn" (click)="isApiKeyModalVisible = false">Cancel</button>
+      <button class="primary-btn" (click)="saveApiKey()">Save Key</button>
+    </div>
   </div>
+</div>
 
-   <!-- Show error message if one exists -->
-   <div *ngIf="error" class="error">
-    <p>{{ error }}</p>
+<!-- Confirm Delete Modal -->
+<div class="modal-backdrop" *ngIf="isConfirmDeleteModalVisible">
+  <div class="modal-content">
+    <h3>Confirm Deletion</h3>
+    <p>{{ getConfirmDeleteMessage() }}</p>
+    <div class="modal-actions">
+      <button class="secondary-btn" (click)="cancelDeletion()">Cancel</button>
+      <button class="danger-btn" (click)="confirmDeletion()">Delete</button>
+    </div>
   </div>
-
-  <!-- Input Section at the bottom -->
-  <section class="prompt-section">
-    <textarea
-      placeholder="Enter your prompt here..."
-      [(ngModel)]="prompt"
-      [disabled]="isLoading"
-    ></textarea>
-    <button (click)="askAI()" [disabled]="isLoading">
-      {{ isLoading ? 'Loading...' : 'Ask AI' }}
-    </button>
-  </section>
-</main>
+</div>
