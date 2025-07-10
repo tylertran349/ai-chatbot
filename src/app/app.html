@@ -1,0 +1,45 @@
+<main class="container">
+  <h1>AI Chatbot</h1>
+
+  <!-- Add the Clear button -->
+  <button (click)="clearHistory()" [hidden]="conversationHistory.length === 0">
+    Clear History
+  </button>
+
+  <!-- Chat History Section -->
+  <section class="history-section">
+    <!-- Loop over the conversation history -->
+    <div *ngFor="let turn of conversationHistory" class="turn">
+      <div class="prompt-message">
+        <strong>You:</strong>
+        <p>{{ turn.prompt }}</p>
+      </div>
+      <div class="response-message">
+        <strong>AI:</strong>
+        <pre>{{ turn.response }}</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Show loading indicator at the bottom -->
+  <div *ngIf="isLoading" class="loading-indicator">
+    <p>Generating response...</p>
+  </div>
+
+   <!-- Show error message if one exists -->
+   <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Input Section at the bottom -->
+  <section class="prompt-section">
+    <textarea
+      placeholder="Enter your prompt here..."
+      [(ngModel)]="prompt"
+      [disabled]="isLoading"
+    ></textarea>
+    <button (click)="askAI()" [disabled]="isLoading">
+      {{ isLoading ? 'Loading...' : 'Ask AI' }}
+    </button>
+  </section>
+</main>
