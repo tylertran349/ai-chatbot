@@ -22,8 +22,6 @@ This is an AI chatbot interface built with Angular. It allows users to interact 
 -   **Markdown parsing:** marked
 -   **LaTeX rendering:** KaTeX
 
----
-
 ## Getting Your Google Gemini API Key
 
 1. Open your web browser and navigate to [https://console.cloud.google.com/projectcreate](https://console.cloud.google.com/projectcreate) (log in with your Google account if prompted).
@@ -39,8 +37,6 @@ This is an AI chatbot interface built with Angular. It allows users to interact 
 6. Click on the "Search Google Cloud projects" input field and in the dropdown menu, select the Google Cloud project you created in step 2.
 
 7. Click on the blue **"Create API key in existing project"** button, copy the generated API key (it is a long string of random letters and numbers), and save it somewhere safe for the next section (like a temporary text file).
-
----
 
 ## Running the Application Locally
 
