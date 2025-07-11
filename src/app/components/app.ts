@@ -13,7 +13,7 @@ import { LatexDirective } from './latex';
   imports: [CommonModule, FormsModule, HttpClientModule, LatexDirective],
   providers: [GeminiService],
   templateUrl: './app.html',
-  styleUrl: '../app.css'
+  styleUrl: '../styles/app.css'
 })
 export class AppComponent implements OnInit {
   // --- App State ---
