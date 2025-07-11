@@ -57,7 +57,7 @@ Before you begin, ensure you have the following software installed on your machi
 
 1.  Open your terminal or command prompt and clone this project to your local machine using the command below:
     ```bash
-    git clone <your-repository-url>
+    git clone https://github.com/tylertran349/ai-chatbot.git
     ```
 
 2.  Navigate to the project directory using the command below:
