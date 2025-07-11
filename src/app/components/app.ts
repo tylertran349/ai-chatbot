@@ -1,4 +1,3 @@
-// src/app/app.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,16 +15,16 @@ import { LatexDirective } from './latex';
   styleUrl: '../styles/app.css'
 })
 export class AppComponent implements OnInit {
-  // --- App State ---
+  // App state
   prompt: string = '';
   isLoading: boolean = false;
   error: string | null = null;
   
-  // Conversation State
+  // Conversation state
   conversations: Conversation[] = [];
   activeConversationId: string | null = null;
 
-  // Settings State
+  // Settings state
   apiKey: string = '';
   selectedModel: string = '';
   availableModels: string[] = [
@@ -35,13 +34,13 @@ export class AppComponent implements OnInit {
     'gemini-2.0-flash-lite',
   ];
   
-  // Modal State
+  // Modal state
   isApiKeyModalVisible: boolean = false;
   isConfirmDeleteModalVisible: boolean = false;
   tempApiKey: string = '';
   conversationToDeleteId: string | 'all' | null = null;
 
-  // --- UPDATED: Local Storage Keys ---
+  // Local storage keys
   private readonly STORAGE_KEY_CONVOS = 'ai-chatbot-conversations';
   private readonly STORAGE_KEY_API_KEY = 'ai-chatbot-api-key';
   private readonly STORAGE_KEY_MODEL = 'ai-chatbot-model';
@@ -57,7 +56,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  // --- Core Methods ---
+  // Core methods
   askAI(): void {
     if (!this.prompt.trim() || this.isLoading || !this.apiKey) {
       if (!this.apiKey) this.error = "API Key is not set. Please add it in the settings.";
@@ -143,7 +142,7 @@ export class AppComponent implements OnInit {
     return this.conversations.find(c => c.id === this.activeConversationId);
   }
 
-  // --- Deletion Confirmation Flow ---
+  // Deletion confirmation flow
   requestDeleteConversation(id: string, event: MouseEvent): void {
     event.stopPropagation();
     this.conversationToDeleteId = id;
@@ -183,7 +182,7 @@ export class AppComponent implements OnInit {
     return `Are you sure you want to delete the conversation titled "${convo?.title}"?`;
   }
 
-  // --- Settings & Persistence ---
+  // Settings and persistence
   showApiKeyModal(): void {
     this.tempApiKey = this.apiKey;
     this.isApiKeyModalVisible = true;

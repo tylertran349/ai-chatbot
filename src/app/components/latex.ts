@@ -1,8 +1,6 @@
-// src/app/latex.ts
-
 import { Directive, ElementRef, Input, OnChanges, SimpleChanges, Renderer2 } from '@angular/core';
 import * as katex from 'katex';
-import { marked } from 'marked'; // <-- IMPORT MARKED
+import { marked } from 'marked';
 
 @Directive({
   selector: '[appLatex]',
@@ -27,7 +25,7 @@ export class LatexDirective implements OnChanges {
 
     parts.forEach(part => {
       if (part.match(latexRegex)) {
-        // This is a LaTeX part
+        // This is a Latex part
         const isDisplayMode = part.startsWith('$$');
         const latex = part.substring(isDisplayMode ? 2 : 1, part.length - (isDisplayMode ? 2 : 1));
         
@@ -45,7 +43,7 @@ export class LatexDirective implements OnChanges {
           this.renderer.appendChild(this.el.nativeElement, textNode);
         }
       } else if (part) {
-        // This is a Markdown/text part
+        // This is a markdown/text part
         const parsedHtml = marked.parse(part) as string;
         const span = this.renderer.createElement('span');
         this.renderer.setProperty(span, 'innerHTML', parsedHtml);

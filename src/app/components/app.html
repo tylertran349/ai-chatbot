@@ -1,6 +1,5 @@
-<!-- src/app/app.html -->
 <div class="app-layout">
-  <!-- Sidebar for Conversation History -->
+  <!-- Sidebar for conversation history -->
   <aside class="sidebar">
     <header>
       <h1>AI Chatbot</h1>
@@ -14,8 +13,6 @@
         [class.active]="convo.id === activeConversationId"
       >
         <span class="convo-title">{{ convo.title }}</span>
-
-        <!-- **** UPDATE THIS BUTTON **** -->
         <button class="delete-btn" title="Delete conversation" (click)="requestDeleteConversation(convo.id, $event)">
           <span class="material-symbols-outlined">delete</span>
         </button>
@@ -40,16 +37,13 @@
     </footer>
   </aside>
 
-  <!-- Main Chat Area -->
+  <!-- Main chat area -->
   <main class="chat-area">
     <ng-container *ngIf="getActiveConversation() as activeConvo; else noChatSelected">
       <div class="message-container">
         <div *ngFor="let message of activeConvo.messages" [ngClass]="message.role">
           <div class="message-content">
             <strong>{{ message.role === 'user' ? 'You' : 'AI' }}:</strong>
-            
-            <!-- **** THIS IS THE UPDATED LINE **** -->
-            <!-- It now uses the directive to render Markdown AND LaTeX -->
             <div class="render-content" [appLatex]="message.content"></div>
 
           </div>
@@ -88,9 +82,7 @@
   </main>
 </div>
 
-
-<!-- MODALS -->
-<!-- API Key Modal -->
+<!-- API key popup -->
 <div class="modal-backdrop" *ngIf="isApiKeyModalVisible">
   <div class="modal-content">
     <h3>API Key Settings</h3>
@@ -103,7 +95,7 @@
   </div>
 </div>
 
-<!-- Confirm Delete Modal -->
+<!-- Confirm delete popup -->
 <div class="modal-backdrop" *ngIf="isConfirmDeleteModalVisible">
   <div class="modal-content">
     <h3>Confirm Deletion</h3>

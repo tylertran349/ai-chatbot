@@ -1,4 +1,3 @@
-// src/app/services/gemini.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, throwError } from 'rxjs';
