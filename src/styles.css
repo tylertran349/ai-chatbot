@@ -95,12 +95,12 @@ body { font-family: var(--font-family-base); background-color: var(--background-
 .convo-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; }
 .conversation-list li:hover { background-color: var(--accent-color-light); }
 .conversation-list li.active { background-color: var(--accent-color); color: var(--text-on-accent); font-weight: 500; }
-.conversation-list li .delete-btn { color: var(--text-secondary); border-radius: 50%; width: 28px; height: 28px; opacity: 0; transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 0; }
+.conversation-list li .delete-btn { color: var(--text-secondary); border-radius: 50%; width: 28px; height: 28px; opacity: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 0; }
 .delete-btn .material-symbols-outlined { font-size: 1.125rem; }
 .conversation-list li:hover .delete-btn, .conversation-list li .delete-btn:focus { opacity: 1; }
-.conversation-list li .delete-btn:hover { background-color: var(--danger-color-light); color: var(--danger-text); }
-.conversation-list li.active .delete-btn { color: var(--text-on-accent); opacity: 0.7; }
-.conversation-list li.active .delete-btn:hover { background-color: rgba(255,255,255,0.2); opacity: 1; }
+.conversation-list li .delete-btn:hover { background: none; color: var(--danger-text); }
+.conversation-list li.active .delete-btn { background: none; color: var(--text-on-accent); opacity: 0.7; }
+.conversation-list li.active .delete-btn:hover { background-color: rgba(255,255,255,0); opacity: 1; }
 
 .sidebar-footer {
   padding-top: var(--spacing-md);
