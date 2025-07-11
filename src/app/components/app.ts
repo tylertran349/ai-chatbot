@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { GeminiService } from './services/gemini';
-import { Conversation, ChatMessage } from './models/conversation.model';
+import { GeminiService } from '../services/gemini';
+import { Conversation, ChatMessage } from '../models/conversation.model';
 import { LatexDirective } from './latex';
 
 @Component({
@@ -13,7 +13,7 @@ import { LatexDirective } from './latex';
   imports: [CommonModule, FormsModule, HttpClientModule, LatexDirective],
   providers: [GeminiService],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: '../app.css'
 })
 export class AppComponent implements OnInit {
   // --- App State ---
