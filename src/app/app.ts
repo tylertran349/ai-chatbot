@@ -107,17 +107,18 @@ export class AppComponent implements OnInit {
       title: 'New Chat...',
       messages: [userMessage]
     };
-    
+    this.conversations.unshift(newConversation);
+    this.activeConversationId = newConversation.id;
     this.geminiService.generateContent(this.apiKey, this.selectedModel, promptText).subscribe({
       next: (aiResponse) => {
         newConversation.messages.push({ role: 'ai', content: aiResponse });
-        this.conversations.unshift(newConversation);
-        this.activeConversationId = newConversation.id;
         this.isLoading = false;
         this.saveConversations();
         this.generateTitleForConversation(newConversation, promptText, aiResponse);
       },
-      error: (err) => this.handleError(err)
+      error: (err) => {
+        this.handleError(err);
+      }
     });
   }
 

@@ -3,9 +3,10 @@
   <!-- Sidebar for Conversation History -->
   <aside class="sidebar">
     <header>
-      <h1>AI Chat</h1>
+      <h1>AI Chatbot</h1>
       <button class="new-chat-btn" (click)="startNewConversation()">+ New Chat</button>
     </header>
+    <h3 class="history-header">History</h3>
     <ul class="conversation-list">
       <li 
         *ngFor="let convo of conversations" 
@@ -13,7 +14,12 @@
         [class.active]="convo.id === activeConversationId"
       >
         <span class="convo-title">{{ convo.title }}</span>
-        <button class="delete-btn" title="Delete conversation" (click)="requestDeleteConversation(convo.id, $event)">×</button>
+
+        <!-- **** UPDATE THIS BUTTON **** -->
+        <button class="delete-btn" title="Delete conversation" (click)="requestDeleteConversation(convo.id, $event)">
+          <span class="material-symbols-outlined">delete</span>
+        </button>
+
       </li>
     </ul>
     <footer class="sidebar-footer">
@@ -59,7 +65,7 @@
 
     <ng-template #noChatSelected>
       <div class="welcome-screen">
-        <h2>AI Chat Assistant</h2>
+        <h2>AI Chatbot</h2>
         <p>Start a new conversation or select one from the list.</p>
         <p *ngIf="!apiKey" class="warning">Your API Key is not set. Please add it via the "API Key" button.</p>
       </div>
@@ -71,7 +77,7 @@
         <textarea 
           [(ngModel)]="prompt"
           (keydown.enter)="handleEnterKey($event)"
-          placeholder="Ask me anything..."
+          placeholder="Ask anything..."
           [disabled]="isLoading"
         ></textarea>
         <button (click)="askAI()" [disabled]="isLoading || !prompt.trim()">
@@ -89,7 +95,7 @@
   <div class="modal-content">
     <h3>API Key Settings</h3>
     <p>Enter your Google Gemini API key. Your key is stored locally in your browser and never sent anywhere else.</p>
-    <input type="password" [(ngModel)]="tempApiKey" placeholder="Enter your API key here">
+    <input type="text" [(ngModel)]="tempApiKey" placeholder="Enter your API key here">
     <div class="modal-actions">
       <button class="secondary-btn" (click)="isApiKeyModalVisible = false">Cancel</button>
       <button class="primary-btn" (click)="saveApiKey()">Save Key</button>

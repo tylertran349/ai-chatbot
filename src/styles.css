@@ -1,1 +1,189 @@
-/* You can add global styles to this file, and also import other style files */
+/*
+ * =================================================================================
+ * STYLES.CSS for AI Chatbot (Updated)
+ * =================================================================================
+ */
+
+/* 1. FONT IMPORT & GLOBAL STYLES
+--------------------------------------------------------------------------------- */
+/* Font is assumed to be imported in index.html for better performance */
+
+/* CSS Custom Properties (Variables) */
+:root {
+  /* Colors */
+  --accent-color: #0061fe;
+  --accent-color-light: #e6f0ff;
+  --text-on-accent: #ffffff;
+  --danger-color: #d92d20;
+  --danger-color-light: #fdeaea;
+  --danger-text: #b91c1c;
+  --background-color: #ffffff;
+  /* **** UPDATED: Darker grey values for better contrast **** */
+  --sidebar-bg: #f3f4f6;
+  --ai-message-bg: #d1d5db;
+  --border-color: #9ca3af;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-placeholder: #9ca3af;
+  --disabled-bg: #d1d5db;
+  --disabled-text: #6b7280;
+  --scrollbar-thumb-color: #adb5bd;
+  --scrollbar-thumb-hover-color: #9ca3af;
+
+  /* Typography */
+  --font-family-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  
+  /* Sizing & Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.5rem;
+}
+
+/* Base and Reset Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { font-size: 16px; }
+body { font-family: var(--font-family-base); background-color: var(--background-color); color: var(--text-primary); line-height: 1.5; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow: hidden; }
+
+/* 2. MAIN APP LAYOUT
+--------------------------------------------------------------------------------- */
+.app-layout { display: grid; grid-template-columns: 280px 1fr; height: 100vh; width: 100vw; }
+
+/* 3. SIDEBAR STYLING
+--------------------------------------------------------------------------------- */
+.sidebar { background-color: var(--sidebar-bg); display: flex; flex-direction: column; padding: var(--spacing-md); gap: var(--spacing-md); overflow: hidden; }
+.sidebar header h1 { font-size: 1.25rem; font-weight: 600; margin-bottom: var(--spacing-md); color: var(--accent-color); }
+.new-chat-btn { width: 100%; }
+.history-header { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-bottom: calc(var(--spacing-xs) * -1); }
+
+.conversation-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  margin: 0 calc(var(--spacing-md) * -1);
+}
+
+/* Scrollbar Styling */
+.conversation-list { scrollbar-width: auto; scrollbar-color: var(--scrollbar-thumb-color) transparent; }
+.conversation-list::-webkit-scrollbar { width: 12px; }
+.conversation-list::-webkit-scrollbar-track { background: transparent; }
+.conversation-list::-webkit-scrollbar-thumb { background-color: var(--scrollbar-thumb-color); border-radius: 20px; }
+.conversation-list::-webkit-scrollbar-thumb:hover { background-color: var(--scrollbar-thumb-hover-color); }
+
+.conversation-list li {
+  padding: var(--spacing-sm) var(--spacing-md);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.convo-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; }
+.conversation-list li:hover { background-color: var(--accent-color-light); }
+.conversation-list li.active { background-color: var(--accent-color); color: var(--text-on-accent); font-weight: 500; }
+.conversation-list li .delete-btn { color: var(--text-secondary); border-radius: 50%; width: 28px; height: 28px; opacity: 0; transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 0; }
+.delete-btn .material-symbols-outlined { font-size: 1.125rem; }
+.conversation-list li:hover .delete-btn, .conversation-list li .delete-btn:focus { opacity: 1; }
+.conversation-list li .delete-btn:hover { background-color: var(--danger-color-light); color: var(--danger-text); }
+.conversation-list li.active .delete-btn { color: var(--text-on-accent); opacity: 0.7; }
+.conversation-list li.active .delete-btn:hover { background-color: rgba(255,255,255,0.2); opacity: 1; }
+
+.sidebar-footer {
+  padding-top: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.settings-group { display: flex; align-items: center; gap: var(--spacing-sm); }
+.settings-group label { font-size: 0.875rem; font-weight: 500; }
+.settings-group select { width: 100%; padding: var(--spacing-xs) var(--spacing-sm); border: 2px solid var(--border-color); border-radius: var(--border-radius-sm); background-color: var(--background-color); font-family: inherit; font-size: 0.875rem; }
+.sidebar-footer .clear-all-btn { background-color: var(--danger-color-light); color: var(--danger-text); font-weight: 500; }
+.sidebar-footer .clear-all-btn:hover { background-color: var(--danger-color); color: var(--text-on-accent); }
+
+/* 4. MAIN CHAT AREA
+--------------------------------------------------------------------------------- */
+.chat-area { display: flex; flex-direction: column; height: 100%; background-color: var(--background-color); overflow: hidden; }
+.message-container { flex-grow: 1; overflow-y: auto; padding: var(--spacing-lg); display: flex; flex-direction: column; gap: var(--spacing-lg); }
+.message-container .user, .message-container .ai { max-width: 80%; display: flex; flex-direction: column; }
+
+/* **** UPDATED: Added align-self to make user message shrink-to-fit **** */
+.message-container .user {
+  align-self: flex-start;
+}
+
+.message-container .ai { align-self: flex-start; }
+.message-content { padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--border-radius-md); word-wrap: break-word; }
+.user .message-content { background-color: var(--accent-color); color: var(--text-on-accent); }
+.ai .message-content { background-color: var(--ai-message-bg); color: var(--text-primary); }
+.message-content strong { display: block; margin-bottom: var(--spacing-xs); font-weight: 600; }
+.render-content p { margin-bottom: var(--spacing-sm); }
+.render-content p:last-child { margin-bottom: 0; }
+.render-content ul, .render-content ol { padding-left: var(--spacing-md); margin-bottom: var(--spacing-sm); }
+.welcome-screen { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: var(--text-secondary); padding: var(--spacing-xl); }
+.welcome-screen h2 { color: var(--accent-color); font-size: 1.75rem; margin-bottom: var(--spacing-sm); }
+.welcome-screen .warning { color: var(--danger-text); background-color: var(--danger-color-light); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--border-radius-sm); margin-top: var(--spacing-md); font-weight: 500; }
+.loading .render-content p { animation: pulse 1.5s infinite ease-in-out; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+/* 5. PROMPT INPUT FORM
+--------------------------------------------------------------------------------- */
+.prompt-form { padding: var(--spacing-md); box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.04); background-color: var(--background-color); flex-shrink: 0; position: relative; z-index: 10; }
+.error-message { color: var(--danger-text); background-color: var(--danger-color-light); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--border-radius-sm); margin-bottom: var(--spacing-sm); text-align: center; }
+.input-group { display: flex; gap: var(--spacing-sm); align-items: center; max-width: 50%; margin: 0 auto; }
+.input-group textarea { flex-grow: 1; padding: 0.75rem; border-radius: var(--border-radius-md); border: 2px solid var(--border-color); font-family: inherit; font-size: 1rem; resize: none; min-height: 100px; max-height: 200px; overflow-y: auto; transition: border-color 0.2s ease; }
+.input-group textarea:focus { outline: none; border-color: var(--text-secondary); box-shadow: 0 0 0 2px var(--accent-color-light); }
+.input-group textarea::placeholder { color: var(--text-placeholder); }
+.input-group button { height: 44px; width: 90px; flex-shrink: 0; font-size: 1rem; font-weight: 500; }
+
+/* 6. BUTTONS & MODALS
+--------------------------------------------------------------------------------- */
+button { padding: 0.5rem 1rem; border: 2px solid transparent; border-radius: var(--border-radius-md); font-family: inherit; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease; }
+button:disabled { background-color: var(--disabled-bg); color: var(--disabled-text); cursor: not-allowed; border-color: transparent; }
+.new-chat-btn, .primary-btn, .input-group button { background-color: var(--accent-color); color: var(--text-on-accent); }
+.new-chat-btn:hover:not(:disabled), .primary-btn:hover:not(:disabled), .input-group button:hover:not(:disabled) { background-color: #0052d6; }
+
+.settings-btn { background-color: var(--background-color); color: var(--text-primary); border-color: var(--border-color); }
+.settings-btn:hover:not(:disabled) { background-color: var(--sidebar-bg); border-color: #b7bcc2; }
+
+.secondary-btn { background-color: transparent; color: var(--text-secondary); border-color: transparent; }
+.secondary-btn:hover:not(:disabled) { background-color: var(--sidebar-bg); color: var(--text-primary); }
+
+.danger-btn { background-color: var(--danger-color); color: var(--text-on-accent); }
+.danger-btn:hover:not(:disabled) { background-color: #b91c1c; }
+.modal-backdrop { position: fixed; inset: 0; background-color: rgba(17, 24, 39, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: var(--spacing-md); }
+.modal-content { background: var(--background-color); padding: var(--spacing-lg); border-radius: var(--border-radius-md); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: var(--spacing-md); }
+.modal-content h3 { font-size: 1.25rem; font-weight: 600; }
+.modal-content p { color: var(--text-secondary); }
+.modal-content input[type="text"] { width: 100%; padding: var(--spacing-sm); border: 2px solid var(--border-color); border-radius: var(--border-radius-sm); font-family: inherit; font-size: 1rem; }
+.modal-content input[type="text"]:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 0 2px var(--accent-color-light); }
+.modal-actions { display: flex; justify-content: flex-end; gap: var(--spacing-sm); margin-top: var(--spacing-sm); }
+
+/* 7. RESPONSIVE DESIGN
+--------------------------------------------------------------------------------- */
+@media (max-width: 50em) { /* 800px */
+  .app-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .sidebar { height: auto; max-height: 40vh; border-right: none; }
+  .message-container .user, .message-container .ai { max-width: 90%; }
+  .input-group { max-width: 80%; }
+}
+@media (max-width: 30em) { /* 480px */
+  html { font-size: 14px; }
+  .message-container { padding: var(--spacing-md); gap: var(--spacing-md); }
+  .prompt-form { padding: var(--spacing-sm); }
+  .input-group { max-width: 100%; }
+}
