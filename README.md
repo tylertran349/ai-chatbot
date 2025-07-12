@@ -1,17 +1,16 @@
 # AI Chatbot Application
 
-This is an AI chatbot interface built with Angular. It allows users to interact with Google's powerful Gemini large language models in a persistent, multi-conversation format.
+This is an AI chatbot interface built with Angular. This chatbot uses Google's Gemini large language models (LLMs) as the underlying model to generate responses to user inputs/questions. It saves your chat history, allowing you to go back to previous conversations.
 
 ![AI Chatbot Screenshot](./ai-chatbot-screenshot.png)
 
 ## Features
 
--   **Real-time AI chat:** Engage in conversations with the Gemini API.
--   **Markdown and LaTeX rendering:** AI responses are beautifully rendered, supporting code blocks, lists, mathematical formulas, and more.
+-   **Markdown and LaTeX rendering:** The chatbot can render code blocks, lists, mathematical formulas, and more.
 -   **Full conversation history:** All conversations are automatically saved to your browser's local storage for persistence.
 -   **Multi-conversation management:** Easily switch between different chats, each with an AI-generated title for quick reference.
--   **Model selection:** Choose from a list of available Gemini models to experiment with different AI capabilities.
--   **Secure API key management:** Your API key is stored securely in your browser and managed through an in-app modal.
+-   **Model selection:** You can choose from a list of different Gemini models.
+-   **Secure API key management:** Your API key is stored only in your browser's local storage and is never sent to any server other than the Google API.
 -   **Robust UI:** Includes clear loading states, error handling, and confirmation popups for a smooth and intuitive user experience.
 
 ## Tech Stack
@@ -36,7 +35,7 @@ This is an AI chatbot interface built with Angular. It allows users to interact 
 
 6. Click on the "Search Google Cloud projects" input field and in the dropdown menu, select the Google Cloud project you created in step 2.
 
-7. Click on the blue **"Create API key in existing project"** button, copy the generated API key (it is a long string of random letters and numbers), and save it somewhere safe for the next section (like a temporary text file).
+7. Click the blue **"Create API key in existing project"** button. Copy the generated API key (it is a long string of random letters and numbers) and save it somewhere safe for the next section (like a temporary text file).
 
 ## Running the Application Locally
 
@@ -61,7 +60,7 @@ Before you begin, ensure you have the following software installed on your machi
     cd ai-chatbot
     ```
 
-3.  Install all the necessary libraries for the project to run by running the following command:
+3.  Install the project dependencies by running the following command:
     ```bash
     npm install
     ```
